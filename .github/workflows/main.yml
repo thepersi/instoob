@@ -1,0 +1,30 @@
+name: Instagram to YouTube
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodni yuklash
+        uses: actions/checkout@v4
+
+      - name: Python o‘rnatish
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Kutubxonalarni o‘rnatish
+        run: |
+          pip install -r requirements.txt
+
+      - name: Instagram → YouTube ishga tushirish
+        env:
+          IG_SESSION_ID: ${{ secrets.IG_SESSION_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+        run: |
+          python main.py
